@@ -50,5 +50,4 @@ public class Policy {
     @Column
     private String updatedBy;
 
-   
 }
