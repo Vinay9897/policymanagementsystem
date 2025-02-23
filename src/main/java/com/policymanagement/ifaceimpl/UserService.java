@@ -11,7 +11,6 @@ import com.policymanagement.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 
 @Service
-@Transactional
 public class UserService {
     
     @Autowired
@@ -22,8 +21,8 @@ public class UserService {
     
     public User registerUser(UserRegistrationDto registrationDto) {
         // Validate if user already exists
-        if (userRepository.existsByUserId(registrationDto.getUserId())) {
-            throw new UserAlreadyExistsException("User ID already exists: " + registrationDto.getUserId());
+        if (userRepository.existsByGmailId(registrationDto.getGmailId())) {
+            throw new UserAlreadyExistsException("User ID already exists: " + registrationDto.getGmailId());
         }
         
         // Create new user
@@ -33,7 +32,7 @@ public class UserService {
         user.setAge(registrationDto.getAge());
         user.setGender(registrationDto.getGender());
         user.setContactNumber(registrationDto.getContactNumber());
-        user.setUserId(registrationDto.getUserId());
+        user.setGmailId(registrationDto.getGmailId());
         user.setPassword(registrationDto.getPassword());
         user.setRole(registrationDto.getRole());
         

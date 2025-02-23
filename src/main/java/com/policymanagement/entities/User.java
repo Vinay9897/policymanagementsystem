@@ -41,7 +41,7 @@ public class User {
     private String contactNumber;
     
     @Column(nullable = false, unique = true)
-    private String userId;
+    private String gmailId;
     
     @Column(nullable = false)
     private String password;

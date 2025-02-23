@@ -9,6 +9,6 @@ import com.policymanagement.entities.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByUserId(String userId);
-    boolean existsByUserId(String userId);
+    Optional<User> findByGmailId(String gmailId);
+    boolean existsByGmailId(String gmailId);
 }
