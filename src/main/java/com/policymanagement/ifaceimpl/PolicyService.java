@@ -15,12 +15,16 @@ import com.policymanagement.entities.Policy;
 import com.policymanagement.entities.User;
 import com.policymanagement.exceptions.PolicyNotFoundException;
 import com.policymanagement.repositories.PolicyRepository;
+import com.policymanagement.repositories.UserRepository;
 
 @Service
 public class PolicyService {
 
 	@Autowired
 	private PolicyRepository policyRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 
 //	@Autowired
 //	private UserService userService; // For getting current user details
@@ -85,10 +89,10 @@ public class PolicyService {
 				.orElseThrow(() -> new PolicyNotFoundException("Policy not found with ID: " + policyId));
 
 		// Remove the policy from all associated users
-//		for (User user : policy.getUsers()) {
-//			user.removePolicy(policy);
-//			userRepository.save(user);
-//		}
+		for (User user : policy.getUsers()) {
+			user.removePolicy(policy);
+			userRepository.save(user);
+		}
 
 		policyRepository.delete(policy);
 	}

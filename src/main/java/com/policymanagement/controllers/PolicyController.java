@@ -1,8 +1,11 @@
 package com.policymanagement.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +19,7 @@ import com.policymanagement.entities.Policy;
 import com.policymanagement.exceptions.PolicyNotFoundException;
 import com.policymanagement.ifaceimpl.PolicyService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
@@ -46,5 +50,21 @@ public class PolicyController {
         Policy policy = policyService.findByPolicyId(policyId)
             .orElseThrow(() -> new PolicyNotFoundException("Policy not found with ID: " + policyId));
         return ResponseEntity.ok(policy);
+    }
+    
+    @GetMapping
+//    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Get all policies", description = "Retrieve a list of all policies")
+    public ResponseEntity<List<Policy>> getAllPolicies() {
+        List<Policy> policies = policyService.getAllPolicies();
+        return ResponseEntity.ok(policies);
+    }
+    
+    @DeleteMapping("/{policyId}")
+//    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Delete policy", description = "Delete an existing policy by ID")
+    public ResponseEntity<Void> deletePolicy(@PathVariable String policyId) {
+        policyService.deletePolicy(policyId);
+        return ResponseEntity.noContent().build();
     }
 }

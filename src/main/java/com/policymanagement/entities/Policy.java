@@ -56,13 +56,8 @@ public class Policy {
     @Column
     private String updatedBy;
     
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "user_policies",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "policy_id")
-    )
-    private Set<Policy> policies = new HashSet<>();
+    @ManyToMany(mappedBy = "policies", fetch = FetchType.LAZY)
+    private Set<User> users = new HashSet<>();
     
 
 }

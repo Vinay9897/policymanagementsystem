@@ -3,6 +3,7 @@ package com.policymanagement.ifaceimpl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.policymanagement.dtos.UserRegistrationDto;
@@ -17,8 +18,8 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
     
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     
     public User registerUser(UserRegistrationDto registrationDto) {
         // Validate if user already exists
@@ -34,7 +35,7 @@ public class UserService {
         user.setGender(registrationDto.getGender());
         user.setContactNumber(registrationDto.getContactNumber());
         user.setGmailId(registrationDto.getGmailId());
-        user.setPassword(registrationDto.getPassword());
+        user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
         user.setRole(registrationDto.getRole());
         
         return userRepository.save(user);
@@ -52,8 +53,7 @@ public class UserService {
         mapUserFromDto(existingUser, updateDto);
         
         if (updateDto.getPassword() != null && !updateDto.getPassword().isEmpty()) {
-        	existingUser.setPassword(updateDto.getPassword());
-//        	existingUser.setPassword(passwordEncoder.encode(updateDto.getPassword()));
+        	existingUser.setPassword(passwordEncoder.encode(updateDto.getPassword()));
         }
         
         return userRepository.save(existingUser);
